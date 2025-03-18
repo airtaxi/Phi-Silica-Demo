@@ -1,0 +1,15 @@
+using Microsoft.Windows.AI.Generative; 
+ 
+ 
+if (!LanguageModel.IsAvailable()) 
+{ 
+   var op = await LanguageModel.MakeAvailableAsync(); 
+} 
+ 
+using LanguageModel languageModel = await LanguageModel.CreateAsync(); 
+ 
+string prompt = "Provide the molecular formula for glucose."; 
+ 
+var result = await languageModel.GenerateResponseAsync(prompt); 
+ 
+Console.WriteLine(result.Response);

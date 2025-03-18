@@ -1,0 +1,13 @@
+using Microsoft.Windows.AI.Generative; 
+ 
+using LanguageModel languageModel = await LanguageModel.CreateAsync(); 
+ 
+string prompt = "The rapid advancement of technology in the 21st century has led to significant changes in various aspects of human life, including communication, education, healthcare, and business. The rise of the internet and digital tools has revolutionized the way people interact, enabling instant communication across the globe. Social media platforms have connected individuals from different backgrounds, allowing for the exchange of ideas and cultures. In education, online learning platforms and digital resources have made knowledge more accessible than ever before, breaking geographical barriers and enabling self-paced learning. The healthcare industry has also benefited from technological advancements, with telemedicine, artificial intelligence, and big data analytics improving patient care, diagnosis accuracy, and medical research. Businesses have undergone digital transformation, with e-commerce, automation, and artificial intelligence optimizing operations and increasing efficiency. However, despite these advancements, there are challenges such as cybersecurity threats, data privacy concerns, and the digital divide, which need to be addressed to ensure a balanced and ethical technological future.";
+
+LanguageModelOptions options = new LanguageModelOptions {
+    Skill = LanguageModelSkill.Summarize
+};
+ 
+var result = await languageModel.GenerateResponseAsync(options, prompt); 
+ 
+Console.WriteLine(result.Response);

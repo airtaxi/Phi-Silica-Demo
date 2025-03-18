@@ -1,0 +1,30 @@
+using Microsoft.Graphics.Imaging;
+using Microsoft.Windows.Management.Deployment;  
+using Microsoft.Windows.AI.Generative;
+using Microsoft.Windows.AI.ContentModeration;
+using Windows.Storage.StorageFile;  
+using Windows.Storage.Streams;  
+using Windows.Graphics.Imaging;
+
+if (!ImageDescriptionGenerator.IsAvailable())
+{
+    var result = await ImageDescriptionGenerator.MakeAvailableAsync();
+    if (result.Status != PackageDeploymentStatus.CompletedSuccess)
+    {
+        throw result.ExtendedError;
+    }
+}
+
+ImageDescriptionGenerator imageDescriptionGenerator = await ImageDescriptionGenerator.CreateAsync();
+
+// Convert already available softwareBitmap to ImageBuffer.
+ImageBuffer inputImage = ImageBuffer.CreateCopyFromBitmap(softwareBitmap);  
+
+// Create content moderation thresholds object.
+ContentFilterOptions filterOptions = new ContentFilterOptions();
+filterOptions.PromptMinSeverityLevelToBlock.ViolentContentSeverity = SeverityLevel.Medium;
+filterOptions.ResponseMinSeverityLevelToBlock.ViolentContentSeverity = SeverityLevel.Medium;
+
+// Get text description.
+LanguageModelResponse languageModelResponse = await imageDescriptionGenerator.DescribeAsync(inputImage, ImageDescriptionScenario.Caption, filterOptions);
+string response = languageModelResponse.Response;

@@ -1,0 +1,14 @@
+using Microsoft.Graphics.Imaging;
+using Microsoft.Windows.Management.Deployment;
+using Windows.Graphics.Imaging;
+
+if (!ImageScaler.IsAvailable())
+{
+    var result = await ImageScaler.MakeAvailableAsync();
+    if (result.Status != PackageDeploymentStatus.CompletedSuccess)
+    {
+        throw result.ExtendedError;
+    }
+}
+ImageScaler imageScaler = await ImageScaler.CreateAsync();
+SoftwareBitmap finalImage = imageScaler.ScaleSoftwareBitmap(softwareBitmap, targetWidth, targetHeight);

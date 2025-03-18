@@ -1,0 +1,79 @@
+using Microsoft.Windows.Vision;
+using Microsoft.Graphics.Imaging;
+using Windows.Graphics.Imaging;
+using Windows.Storage;
+using Windows.Storage.Streams;
+
+public async Task<TextRecognizer> EnsureModelIsReady()
+{
+    if (!TextRecognizer.IsAvailable())
+    {
+        var loadResult = await TextRecognizer.MakeAvailableAsync();
+        if (loadResult.Status != PackageDeploymentStatus.CompletedSuccess)
+        {
+            throw new Exception(loadResult.ExtendedError().Message);
+        }
+    }
+
+    return await TextRecognizer.CreateAsync();
+}
+
+public async Task<string> RecognizeTextFromSoftwareBitmap(SoftwareBitmap bitmap)
+{
+    TextRecognizer textRecognizer = await EnsureModelIsReady();
+    ImageBuffer imageBuffer = ImageBuffer.CreateBufferAttachedToBitmap(bitmap);
+    RecognizedText recognizedText = textRecognizer.RecognizeTextFromImage(imageBuffer);
+    StringBuilder stringBuilder = new StringBuilder();
+
+    foreach (var line in recognizedText.Lines)
+    {
+        stringBuilder.AppendLine(line.Text);
+    }
+
+    return stringBuilder.ToString();
+}
+
+public void VisualizeWordBoundariesOnGrid(
+    SoftwareBitmap bitmap,
+    Grid grid,
+    TextRecognizer textRecognizer)
+{
+    ImageBuffer imageBuffer = ImageBuffer.CreateBufferAttachedToBitmap(bitmap);
+    RecognizedText result = textRecognizer.RecognizeTextFromImage(imageBuffer);
+
+    SolidColorBrush greenBrush = new SolidColorBrush(Microsoft.UI.Colors.Green);
+    SolidColorBrush yellowBrush = new SolidColorBrush(Microsoft.UI.Colors.Yellow);
+    SolidColorBrush redBrush = new SolidColorBrush(Microsoft.UI.Colors.Red);
+
+    foreach (var line in result.Lines)
+    {
+        foreach (var word in line.Words)
+        {
+            PointCollection points = new PointCollection();
+            var bounds = word.BoundingBox;
+            points.Add(bounds.TopLeft);
+            points.Add(bounds.TopRight);
+            points.Add(bounds.BottomRight);
+            points.Add(bounds.BottomLeft);
+
+            Polygon polygon = new Polygon();
+            polygon.Points = points;
+            polygon.StrokeThickness = 2;
+
+            if (word.Confidence < 0.33)
+            {
+                polygon.Stroke = redBrush;
+            }
+            else if (word.Confidence < 0.67)
+            {
+                polygon.Stroke = yellowBrush;
+            }
+            else
+            {
+                polygon.Stroke = greenBrush;
+            }
+
+            grid.Children.Add(polygon);
+        }
+    }
+}

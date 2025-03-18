@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="PhiSilicaDemo.Pages.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:PhiSilicaDemo.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <NavigationView
+            x:Name="MainNavigationView"
+            IsBackButtonVisible="Collapsed"
+            IsPaneToggleButtonVisible="False"
+            IsSettingsVisible="False"
+            PaneDisplayMode="LeftCompact"
+            SelectedItem="{Binding ElementName=PromptGenerationNavigationViewItem}"
+            SelectionChanged="OnNavigationViewSelectionChanged">
+            <NavigationView.MenuItems>
+                <NavigationViewItem
+                    Content="Phi Silica"
+                    Icon="{ic:SymbolIcon Symbol=Sparkle}"
+                    SelectsOnInvoked="False">
+                    <NavigationViewItem.MenuItems>
+                        <NavigationViewItem
+                            x:Name="PromptGenerationNavigationViewItem"
+                            Content="1. Phi Silica 프롬프트 생성"
+                            Icon="{ic:SymbolIcon Symbol=TextBulletListSquareSparkle}" />
+                        <NavigationViewItem
+                            x:Name="SummaryNavigationViewItem"
+                            Content="2. Phi Silica 텍스트 요약"
+                            Icon="{ic:SymbolIcon Symbol=TextBulletListSquareSparkle}" />
+                        <NavigationViewItem
+                            x:Name="RewriteNavigationViewItem"
+                            Content="3. Phi Silica 텍스트 고쳐 쓰기"
+                            Icon="{ic:SymbolIcon Symbol=TextBulletListSquareSparkle}" />
+                    </NavigationViewItem.MenuItems>
+                </NavigationViewItem>
+                <NavigationViewItem
+                    Content="Text Recognition (OCR)"
+                    Icon="{ic:SymbolIcon Symbol=Sparkle}"
+                    SelectsOnInvoked="False">
+                    <NavigationViewItem.MenuItems>
+                        <NavigationViewItem
+                            x:Name="TextRecognitionNavigationViewItem"
+                            Content="1. 문자 인식"
+                            Icon="{ic:SymbolIcon Symbol=TextEffectsSparkle}" />
+                    </NavigationViewItem.MenuItems>
+                </NavigationViewItem>
+                <NavigationViewItem
+                    Content="Imaging"
+                    Icon="{ic:SymbolIcon Symbol=Sparkle}"
+                    SelectsOnInvoked="False">
+                    <NavigationViewItem.MenuItems>
+                        <NavigationViewItem
+                            x:Name="UpscaleImageNavigationViewItem"
+                            Content="1. 이미지 업스케일링"
+                            Icon="{ic:SymbolIcon Symbol=ImageSparkle}" />
+                        <NavigationViewItem
+                            x:Name="DescribeImageNavigationViewItem"
+                            Content="2. 이미지 설명"
+                            Icon="{ic:SymbolIcon Symbol=ImageSparkle}" />
+                    </NavigationViewItem.MenuItems>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
+
+            <Frame x:Name="ContentFrame" />
+        </NavigationView>
+    </Grid>
+</Page>

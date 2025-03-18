@@ -1,0 +1,13 @@
+using Microsoft.Windows.AI.Generative; 
+ 
+using LanguageModel languageModel = await LanguageModel.CreateAsync(); 
+ 
+string prompt = "She go to the market every Sundays to buys some vegetables and fruits for her family breakfast.";
+
+LanguageModelOptions options = new LanguageModelOptions {
+    Skill = LanguageModelSkill.Rewrite
+};
+ 
+var result = await languageModel.GenerateResponseAsync(options, prompt); 
+ 
+Console.WriteLine(result.Response);
