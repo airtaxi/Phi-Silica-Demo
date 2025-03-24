@@ -1,5 +1,5 @@
 ## 프로젝트 개요
-BMW202503은 마이크로소프트의 Windows AI 기반 Phi Silica 모델을 활용한 데모 애플리케이션 프로젝트입니다. 이 프로젝트는 Windows App SDK를 활용한 WinUI 3 기반의 애플리케이션으로, 로컬 AI 기능을 시연하는 것을 목적으로 합니다.
+Phi-Silica-Demo는 마이크로소프트의 Windows Copilot Runtime의 Phi Silica 모델을 활용한 데모 애플리케이션 프로젝트입니다. 이 프로젝트는 Windows App SDK를 활용한 WinUI 3 기반의 애플리케이션으로, 로컬 AI 기능을 시연하는 것을 목적으로 합니다.
 
 ## 주요 기능
 
